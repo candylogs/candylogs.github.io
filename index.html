@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #191819;
+        }
+
+        .shop {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-gap: 20px;
+            max-width: 800px; /* Limit container width */
+            margin: 20px auto; /* Center the containers */
+            padding: 20px;
+        }
+
+        .product {
+            padding: 10px;
+            border-radius: 10px; /* Rounded corners */
+            text-align: center;
+            overflow: hidden; /* Hide overflow to make image fill container */
+            height: 211px; /* Adjusted the height */
+            background-color: #302c2c;
+        }
+
+        .product img {
+            width: 100%; /* Set a specific width for the image */
+            height: auto; /* Maintain aspect ratio */
+            border-radius: 10px; /* Rounded corners for images */
+        }
+
+        .product h3 {
+            margin-top: 10px;
+            font-size: 18px;
+            color: #fefffe;
+        }
+
+        .product p {
+            font-size: 16px;
+            color: #fefffe;
+        }
+
+        .product .buy-button {
+            font-size: 14px;
+            color: white;
+            margin-top: 5%; /* Adjusted margin */
+            cursor: pointer; /* Make cursor change on hover */
+            border: 1px solid #585858; /* Add border */
+            padding: 8px 16px; /* Add padding */
+            border-radius: 5px; /* Add border-radius */
+            background-color:#3E3E3E; /* Set background color with opacity */
+            transition: background-color 0.3s ease, opacity 0.3s ease; /* Add transition */
+        }
+
+        .product .buy-button:hover {
+            background-color: #585858; /* Change background color on hover */
+            opacity: 0.8; /* Decrease opacity on hover */
+        }
+
+        /* Media Query for smaller screens */
+        @media screen and (max-width: 600px) {
+            .shop {
+                    grid-template-columns: 1fr; /* Display each product in a single column */
+                    max-width: 100%; /* Adjusted max-width */
+                    padding: 10px; /* Adjusted padding */
+                }
+
+                .product {
+                    height: auto; /* Adjusted height */
+                }
+            }
+    </style>
+</head>
+<body>
+    <input type="text" id="searchBar" placeholder="Search..." onkeyup="searchProducts()">
+    <div id="productContainer">
+        <div id="productList" class="shop">
+            <div class="product">
+                <img src="https://imagedelivery.net/A5gbiev6F8AaBvp6M146Kw/283ddd1e-e8f2-4970-6119-2306cd192d00/productCard" alt="Product 1">
+                <h3>Instacart</h3>
+                <p class="buy-button" onclick="alert('Buy Now clicked')">Purchase | $0.00</p> <!-- Added onclick event for demonstration -->
+            </div>
+            <div class="product">
+                <img src="product2.jpg" alt="Product 2">
+                <h3>Product 2</h3>
+                <p class="buy-button" onclick="alert('Buy Now clicked')">Purchase | $0.00</p> <!-- Added onclick event for demonstration -->
+            </div>
+            <div class="product">
+                <img src="product3.jpg" alt="Product 3">
+                <h3>Product 3</h3>
+                <p class="buy-button" onclick="alert('Buy Now clicked')">Purchase | $0.00</p> <!-- Added onclick event for demonstration -->
+            </div>
+            <!-- Add more products here -->
+        </div>
+    </div>
+
+    <script>
+        function searchProducts() {
+            var input, filter, products, product, i, txtValue;
+            input = document.getElementById("searchBar");
+            filter = input.value.toUpperCase();
+            products = document.getElementById("productList");
+            product = products.getElementsByClassName("product");
+            for (i = 0; i < product.length; i++) {
+                txtValue = product[i].textContent || product[i].innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    product[i].style.display = "";
+                } else {
+                    product[i].style.display = "none";
+                }
+            }
+            // Adjust grid layout based on the number of visible products
+            var visibleProducts = products.querySelectorAll('.product:not([style*="display: none"])');
+            var totalVisibleProducts = visibleProducts.length;
+            var gridColumns = totalVisibleProducts > 2 ? 'repeat(auto-fit, minmax(200px, 1fr))' : '1fr';
+            products.style.gridTemplateColumns = gridColumns;
+            products.style.justifyContent = totalVisibleProducts > 1 ? 'center' : 'start';
+        }
+    </script>
+</body>
+</html>
