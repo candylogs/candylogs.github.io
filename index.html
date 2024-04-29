@@ -26,7 +26,7 @@
             border-radius: 10px; /* Rounded corners */
             text-align: center;
             overflow: hidden; /* Hide overflow to make image fill container */
-            height: 211px; /* Adjusted the height */
+            height: 220px; /* Adjusted the height */
             background-color: #302c2c;
         }
 
@@ -102,27 +102,39 @@
     </div>
 
     <script>
-        function searchProducts() {
-            var input, filter, products, product, i, txtValue;
-            input = document.getElementById("searchBar");
-            filter = input.value.toUpperCase();
-            products = document.getElementById("productList");
-            product = products.getElementsByClassName("product");
-            for (i = 0; i < product.length; i++) {
-                txtValue = product[i].textContent || product[i].innerText;
-                if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                    product[i].style.display = "";
-                } else {
-                    product[i].style.display = "none";
-                }
-            }
-            // Adjust grid layout based on the number of visible products
-            var visibleProducts = products.querySelectorAll('.product:not([style*="display: none"])');
-            var totalVisibleProducts = visibleProducts.length;
-            var gridColumns = totalVisibleProducts > 2 ? 'repeat(auto-fit, minmax(200px, 1fr))' : '1fr';
-            products.style.gridTemplateColumns = gridColumns;
-            products.style.justifyContent = totalVisibleProducts > 1 ? 'center' : 'start';
-        }
+        const searchBar = document.getElementById("searchBar");
+const searchButton = document.getElementById("searchButton");
+const products = document.getElementsByClassName("product");
+
+searchButton.addEventListener("click", searchProducts);
+
+function searchProducts() {
+  const filter = searchBar.value.toUpperCase();
+  for (let i = 0; i < products.length; i++) {
+    const txtValue = products[i].textContent || products[i].innerText;
+    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+      products[i].style.display = "";
+    } else {
+      products[i].style.display = "none";
+    }
+  }
+}
+
+// Adjust grid layout based on the number of visible products
+const adjustGridLayout = () => {
+  const visibleProducts = document.querySelectorAll('.product:not([style*="display: none"])');
+  const totalVisibleProducts = visibleProducts.length;
+  const gridTemplateColumns = Array.from(visibleProducts).map(product => 'minmax(200px, 1fr)').join(' ');
+  document.getElementById("productList").style.gridTemplateColumns = gridTemplateColumns;
+}
+
+searchBar.addEventListener("input", () => {
+  searchProducts();
+  adjustGridLayout();
+});
+
+// Call adjustGridLayout initially to set the grid layout
+adjustGridLayout();
     </script>
 </body>
 </html>
